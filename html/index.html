@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feliz Primer Mes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #ffe6e6, #ffe0f0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #d63384;
+      font-size: 4em;
+      margin-bottom: 20px;
+      font-family: 'Arial', cursive;
+    }
+
+    #momentImage {
+      width: 100%;
+      max-width: 200px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    #momentImage.visible {
+      opacity: 1;
+    }
+
+    #momentText {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      color: #5c1a5d;
+      padding: 0 10px;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    #momentText.visible {
+      opacity: 1;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 1.1em;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e60073;
+    }
+
+    .hearts {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .heart {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      transform: rotate(45deg);
+      animation: float 10s linear infinite;
+      opacity: 0.5;
+    }
+
+    .heart::before, .heart::after {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: inherit;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -30px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -30px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(45deg);
+        opacity: 0;
+      }
+      30% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 3.2em;
+      }
+
+      #momentImage {
+        max-width: 100%;
+        height: auto;
+      }
+
+      #momentText {
+        font-size: 1em;
+      }
+
+      button {
+        font-size: 1em;
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="/audios/Twilight-Bon Iver & St. Vincent Roslyn(Edit).mp3" type="audio/mpeg">
+    Tu navegador no soporta audio HTML5.
+  </audio>
+
+  <div class="hearts" id="hearts"></div>
+
+  <h1>1/∞</h1>
+  <img id="momentImage" src="/images/1.png" alt="Momento 1" class="visible" />
+  <div id="momentText" class="visible">“El amor es lo único que somos capaces de percibir que trasciende las dimensiones del tiempo y del espacio”</div>
+  <button id="momentButton" onclick="nextMoment()">Presiona aquí para ver 5 inolvidables momentos</button>
+
+  <script>
+    const moments = [
+      {
+        img: '/images/1.png',
+        text: '"Me has hechizado en cuerpo y alma, y te amo, te amo, te amo"'
+      },
+      {
+        img: '/images/2.png',
+        text: '"No hay nada más hermoso que el amor que se construye sobre la comprensión mutua"'
+      },
+      {
+        img: '/images/3.png',
+        text: '“Mi lugar está contigo.”'
+      },
+      {
+        img: '/images/4.png',
+        text: '“Nada va a cambiar la forma en que te miro.”'
+      },
+      {
+        img: '/images/5.png',
+        text: '“El amor perfecto desecha fuera todo temor.”'
+      }
+    ];
+
+    let current = 0;
+
+    function nextMoment() {
+      const image = document.getElementById('momentImage');
+      const text = document.getElementById('momentText');
+      const button = document.getElementById('momentButton');
+
+      image.classList.remove('visible');
+      text.classList.remove('visible');
+
+      setTimeout(() => {
+        current++;
+
+        if (current >= moments.length) {
+          current = 0;
+          button.textContent = "Vuelve a ver los momentos:(";
+        } else if (current === 1) {
+          button.textContent = "Presiona para continuar:)";
+        }
+
+        image.src = moments[current].img;
+        image.alt = `Momento ${current + 1}`;
+        text.textContent = moments[current].text;
+
+        image.classList.add('visible');
+        text.classList.add('visible');
+      }, 300);
+    }
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
+      document.getElementById('hearts').appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 10000);
+    }
+
+    setInterval(createHeart, 300);
+  </script>
+</body>
+</html>
