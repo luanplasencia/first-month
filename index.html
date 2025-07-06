@@ -149,10 +149,6 @@
   </style>
 </head>
 <body>
-  <audio autoplay loop>
-    <source src="Twilight-Bon Iver & St. Vincent Roslyn(Edit).mp3" type="audio/mpeg">
-    Tu navegador no soporta audio HTML5.
-  </audio>
 
   <div class="hearts" id="hearts"></div>
 
@@ -188,6 +184,9 @@
     let current = 0;
 
     function nextMoment() {
+      
+      document.getElementById('bgMusic').play().catch(() => {});
+
       const image = document.getElementById('momentImage');
       const text = document.getElementById('momentText');
       const button = document.getElementById('momentButton');
@@ -228,5 +227,11 @@
 
     setInterval(createHeart, 300);
   </script>
+
+   <audio id="bgMusic" loop>
+  <source src="Twilight-Bon Iver & St. Vincent Roslyn(Edit).mp3" type="audio/mpeg">
+  Tu navegador no soporta audio HTML5.
+</audio>
+
 </body>
 </html>
